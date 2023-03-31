@@ -1,4 +1,0 @@
-#!/bin/sh
-
-cd /var/www
-php scripts/fetch-dat.php --mode recent
