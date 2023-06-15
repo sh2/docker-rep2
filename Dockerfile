@@ -5,7 +5,7 @@ FROM php:${PHP_VERSION}-cli-alpine${ALPINE_VERSION} AS builder
 
 ARG COMPOSER_VERSION="1.10.26"
 ARG GITHUB_REP2_HASH="e5a5325"
-ARG GITHUB_NCPX_HASH="7470c7"
+ARG GITHUB_NCPX_HASH="bc6c63"
 
 RUN apk --update-cache add \
             git \
