@@ -4,7 +4,7 @@ ARG ALPINE_VERSION="3.18"
 FROM php:${PHP_VERSION}-cli-alpine${ALPINE_VERSION} AS builder
 
 ARG COMPOSER_VERSION="1.10.27"
-ARG GITHUB_REP2_HASH="a61a25957fe19b76a424731b7cb79fc13d9cad38"
+ARG GITHUB_REP2_HASH="2787192ccb0c12186ac6aabaca8b88994aa78d62"
 ARG GITHUB_NCPX_HASH="15bf90b"
 
 RUN apk --update-cache add \
@@ -24,9 +24,16 @@ RUN curl https://getcomposer.org/installer | php -- --version ${COMPOSER_VERSION
 RUN ./composer.phar config -g repos.packagist composer https://packagist.jp
 RUN ./composer.phar global require hirak/prestissimo
 
+# from github
+# ex) docker build . -t rep2
 RUN curl -LO https://github.com/fukumen/p2-php/archive/${GITHUB_REP2_HASH}.zip
 RUN unzip ${GITHUB_REP2_HASH}.zip
 RUN rm -rf /var/www && mv p2-php-* /var/www
+
+# from local
+# ex) docker build --build-context my_source_code=~/p2-php . -t rep2
+#COPY --from=my_source_code . /var/www
+#RUN rm -rf /var/www/.git
 
 WORKDIR /var/www
 
