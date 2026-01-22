@@ -1,0 +1,25 @@
+services:
+  rep2php8:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+      additional_contexts:
+        p2-rep2: https://github.com/fukumen/p2-php.git#b879db50ccfc4b0111bbc128dd5aaf782b5b1c90
+        2chproxy.pl: https://github.com/fukumen/2chproxy.pl.git#6abebb93e692899ca54922391c406b7ffe8564b1
+      args:
+        DEBUG: off
+    image: rep2:latest
+    volumes:
+      - ./rep2-data:/ext
+      - /etc/letsencrypt:/etc/letsencrypt
+    ports:
+      - "10088:443"
+    network_mode: bridge
+    restart: unless-stopped
+    environment:
+      NCPX_USER_AGENT: "Monazilla/1.00 (rep2+2chproxy.pl/0.1)"
+      NCPX_ENABLE_ALWAYS_HTTPS_FOR_2CH: 1
+      NCPX_ALLOW_CONNECT_METHOD: 1
+      NCPX_KEEP_COOKIE : 0
+      NCPX_ENABLE_WEB_SCRAPING : 0
+      NCPX_TIMEOUT: 120

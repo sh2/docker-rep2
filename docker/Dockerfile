@@ -1,11 +1,10 @@
-ARG PHP_VERSION="8.1.24"
-ARG ALPINE_VERSION="3.18"
+ARG PHP_VERSION="8.4.1"
+ARG ALPINE_VERSION="3.19"
 
 FROM php:${PHP_VERSION}-cli-alpine${ALPINE_VERSION} AS builder
+ARG DEBUG
 
 ARG COMPOSER_VERSION="1.10.27"
-ARG GITHUB_REP2_HASH="2787192ccb0c12186ac6aabaca8b88994aa78d62"
-ARG GITHUB_NCPX_HASH="15bf90b"
 
 RUN apk --update-cache add \
             git \
@@ -24,16 +23,8 @@ RUN curl https://getcomposer.org/installer | php -- --version ${COMPOSER_VERSION
 RUN ./composer.phar config -g repos.packagist composer https://packagist.jp
 RUN ./composer.phar global require hirak/prestissimo
 
-# from github
-# ex) docker build . -t rep2
-RUN curl -LO https://github.com/fukumen/p2-php/archive/${GITHUB_REP2_HASH}.zip
-RUN unzip ${GITHUB_REP2_HASH}.zip
-RUN rm -rf /var/www && mv p2-php-* /var/www
-
-# from local
-# ex) docker build --build-context my_source_code=~/p2-php . -t rep2
-#COPY --from=my_source_code . /var/www
-#RUN rm -rf /var/www/.git
+RUN rm -rf /var/www && mkdir /var/www
+COPY --from=p2-rep2 . /var/www
 
 WORKDIR /var/www
 
@@ -48,8 +39,7 @@ RUN mv conf conf.orig && ln -s /ext/conf conf
 RUN mv data data.orig && ln -s /ext/data data
 RUN ln -s /ext/rep2/ic rep2/ic
 
-RUN curl -LO https://raw.githubusercontent.com/yama-natuki/2chproxy.pl/${GITHUB_NCPX_HASH}/2chproxy.pl
-RUN patch -p1 < /tmp/2chproxy.patch
+COPY --from=2chproxy.pl 2chproxy.pl .
 RUN chmod 755 2chproxy.pl
 RUN mv 2chproxy.pl /usr/local/bin/
 
@@ -57,6 +47,7 @@ RUN mv 2chproxy.pl /usr/local/bin/
 FROM php:${PHP_VERSION}-cli-alpine${ALPINE_VERSION}
 LABEL org.opencontainers.image.authors="Abe Masahiro <pen@thcomp.org>" \
     org.opencontainers.image.source="https://github.com/pen/docker-rep2"
+ARG DEBUG
 
 RUN apk --no-cache add \
             h2o \
@@ -68,7 +59,18 @@ RUN apk --no-cache add \
             perl-http-daemon \
             perl-lwp-useragent-determined \
             perl-yaml-tiny \
+            perl-io-socket-ssl \
+            perl-lwp-protocol-https \
+            ca-certificates \
             zlib
+
+RUN if [ "$DEBUG" = "on" ]; then \
+    apk --no-cache add tshark; \
+    apk --no-cache add  --virtual .build-deps $PHPIZE_DEPS linux-headers \
+    && pecl install xdebug \
+    && docker-php-ext-enable xdebug \
+    && apk del .build-deps; \
+    fi
 
 COPY --from=builder /usr/local /usr/local
 COPY --from=builder /var/www   /var/www
