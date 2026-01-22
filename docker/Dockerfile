@@ -1,12 +1,13 @@
-ARG PHP_VERSION="8.4.1"
-ARG ALPINE_VERSION="3.19"
-ARG CADDY_VERSION="2.8.4"
+ARG PHP_VERSION="8.5"
+ARG ALPINE_VERSION="3.23"
+ARG CADDY_VERSION="2.11"
 
 FROM caddy:${CADDY_VERSION}-alpine AS caddy-upstream
 
 FROM php:${PHP_VERSION}-fpm-alpine${ALPINE_VERSION} AS builder
 ARG DEBUG
 
+# composerのver1系最終を指定
 ARG COMPOSER_VERSION="1.10.27"
 
 RUN apk --update-cache add \
