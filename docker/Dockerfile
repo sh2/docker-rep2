@@ -1,7 +1,10 @@
 ARG PHP_VERSION="8.4.1"
 ARG ALPINE_VERSION="3.19"
+ARG CADDY_VERSION="2.8.4"
 
-FROM php:${PHP_VERSION}-cli-alpine${ALPINE_VERSION} AS builder
+FROM caddy:${CADDY_VERSION}-alpine AS caddy-upstream
+
+FROM php:${PHP_VERSION}-fpm-alpine${ALPINE_VERSION} AS builder
 ARG DEBUG
 
 ARG COMPOSER_VERSION="1.10.27"
@@ -44,13 +47,12 @@ RUN chmod 755 2chproxy.pl
 RUN mv 2chproxy.pl /usr/local/bin/
 
 
-FROM php:${PHP_VERSION}-cli-alpine${ALPINE_VERSION}
+FROM php:${PHP_VERSION}-fpm-alpine${ALPINE_VERSION}
 LABEL org.opencontainers.image.authors="Abe Masahiro <pen@thcomp.org>" \
     org.opencontainers.image.source="https://github.com/pen/docker-rep2"
 ARG DEBUG
 
 RUN apk --no-cache add \
-            h2o \
             sudo \
             gettext \
             libintl \
@@ -63,6 +65,8 @@ RUN apk --no-cache add \
             perl-lwp-protocol-https \
             ca-certificates \
             zlib
+
+COPY --from=caddy-upstream /usr/bin/caddy /usr/bin/caddy
 
 RUN if [ "$DEBUG" = "on" ]; then \
     apk --no-cache add tshark; \
@@ -77,6 +81,6 @@ COPY --from=builder /var/www   /var/www
 COPY rootfs /
 
 VOLUME /ext
-EXPOSE 80
+EXPOSE 443
 
 CMD ["/etc/rc.entry"]

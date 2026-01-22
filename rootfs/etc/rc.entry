@@ -4,10 +4,17 @@ mkdir -p /ext/conf /ext/data /ext/rep2/ic
 yes no | cp -Ri /var/www/conf.orig/* /ext/conf/
 yes no | cp -Ri /var/www/data.orig/* /ext/data/
 
+# Xdebugのログファイル作成と権限設定
+touch /tmp/xdebug.log && chmod 666 /tmp/xdebug.log
+
 php /var/www/scripts/ic2.php setup
 
 crond
-h2o -c /etc/h2o.conf -m daemon
+
+# PHP-FPMをバックグラウンド起動 (-R: rootでの実行を許可)
+php-fpm -D -R
+# Caddyをバックグラウンド起動
+caddy start --config /etc/Caddyfile
 
 while true; do
     rm -f /tmp/2chproxy.pid
