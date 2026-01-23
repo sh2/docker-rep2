@@ -2,7 +2,7 @@
 
 ## 概要
 
-以下のソフトをdockerコンテナを作成するDockerfileとdocker-compose.ymlです。
+以下のソフトのdockerコンテナを作成するDockerfileとdocker-compose.ymlです。
 [pen/docker-rep2](https://github.com/pen/docker-rep2)のフォークです。
 
 * rep2
@@ -13,7 +13,7 @@
 
 git, docker, docker composeなどが必要です。
 
-そのまま設定で使うなら以下を実行すればコンテナをビルドして起動までしてくれます。
+そのままの設定で使うなら以下を実行すればコンテナをビルドして起動までしてくれます。
 標準ではポート番号は10088です。
 
 ```shell
@@ -26,11 +26,13 @@ docker compose up -d --build
 
 rep2を以下の設定で使う想定です。
 
+```
 proxy_use: する
 proxy_host: 127.0.0.1
 proxy_port: 8080
 2ch_ssl.subject: しない
 2ch_ssl.post: しない
+```
 
 2ch_ssl.subjectと2ch_ssl.postをするにしていると2chproxy.plがほぼ土管になって2chproxy.plの使いたい機能が使えません。
 
@@ -38,9 +40,11 @@ proxy_port: 8080
 
 rep2を以下の設定で使う想定です。
 
+```
 proxy_use: しない
 2ch_ssl.subject: する
 2ch_ssl.post: する
+```
 
 2chproxy.plは動いていても使わずに直接5chに接続するようになります。
 
@@ -65,10 +69,12 @@ https接続を使いたい場合はdocker-compose.ymlを編集してLet's Encryp
 
 ## ソフトバージョン
 
+```
 ALPINE 3.23
 PHP 8.5
 CADDY 2.11
 COMPOSER 2.9.4
+```
 
 新しそうなのを集めたので気分はいいけどかなり怪しい世界。
 
@@ -80,7 +86,7 @@ COMPOSER 2.9.4
 ソースコードが用意できたら以下のように実行してください。
 
 ```shell
-docker compose -f docker-compose.yml -f docker-compose.debug.yml
+docker compose -f docker-compose.yml -f docker-compose.debug.yml build
 docker compose -f docker-compose.yml -f docker-compose.debug.yml up -d
 ```
 
