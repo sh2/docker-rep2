@@ -26,6 +26,11 @@ cat <<EOF >> /etc/Caddyfile
     root * /var/www/rep2
     php_fastcgi 127.0.0.1:9000
     file_server
+
+    @js_files {
+        path *.js
+    }
+    header @js_files Content-Type "application/javascript; charset=Shift_JIS"
 }
 EOF
 
