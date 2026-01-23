@@ -4,7 +4,7 @@ services:
       context: .
       dockerfile: docker/Dockerfile
       additional_contexts:
-        p2-rep2: https://github.com/fukumen/p2-php.git#27df6c3f87cafb550daa920fa7a348e617ca9bf6
+        p2-rep2: https://github.com/fukumen/p2-php.git#1e6dca32e2e50758efba38b17d3ae36d39309f38
         2chproxy.pl: https://github.com/fukumen/2chproxy.pl.git#6abebb93e692899ca54922391c406b7ffe8564b1
       args:
         DEBUG: off
