@@ -15,12 +15,16 @@ git, docker, docker composeなどが必要です。
 
 そのままの設定で使うなら以下を実行すればコンテナをビルドして起動までしてくれます。
 標準ではポート番号は10088です。
+変更したい場合はdocker-compose.ymlを編集してください。
 
 ```shell
 git clone https://github.com/fukumen/docker-rep2.git
 cd docker-rep2
 docker compose up -d --build
 ```
+
+標準ではカレントディレクトリのrep2-dataにrep2/dataの中身が格納されます。
+変更したい場合はdocker-compose.ymlを編集してください。
 
 ### 2chproxy.plを使う場合(デフォルト)
 
