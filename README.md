@@ -90,7 +90,44 @@ docker compose -f docker-compose.yml -f docker-compose.debug.yml build
 docker compose -f docker-compose.yml -f docker-compose.debug.yml up -d
 ```
 
-vscodeでPHP Debug拡張機能を使ってrep2のデバッグが出来ます。
+docker-rep2とp2-phpと2chproxy.plの親ディレクトリに以下のようなワークスペースを用意してください。
+
+```rep2.code-workspace
+{
+	"folders": [
+		{
+			"path": "p2-php"
+		},
+		{
+			"path": "2chproxy.pl"
+		},
+		{
+			"path": "docker-rep2"
+		}
+	],
+	"settings": {
+		"files.autoGuessEncoding": true
+	},
+	"launch": {
+		"version": "0.2.0",
+		"configurations": [
+			{
+				"name": "Listen for Xdebug",
+				"type": "php",
+				"request": "launch",
+				"port": 9003,
+				"pathMappings": {
+					"/var/www/vendor/pear-pear.php.net/HTTP_Request2/HTTP/": "${workspaceFolder:HTTP_Request2}/HTTP",
+					"/var/www": "${workspaceFolder:p2-php}",
+					"/ext": "${workspaceFolder:docker-rep2}/rep2-data"
+				}
+			}
+		]
+	}
+}
+```
+
+これでvscodeでPHP Debug拡張機能を使ってrep2のデバッグが出来ます。
 Makefileにこれらのコマンドも入れてあるのでそちらを使うと便利です。
 
 ## TODO
