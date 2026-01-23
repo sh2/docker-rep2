@@ -7,8 +7,7 @@ FROM caddy:${CADDY_VERSION}-alpine AS caddy-upstream
 FROM php:${PHP_VERSION}-fpm-alpine${ALPINE_VERSION} AS builder
 ARG DEBUG
 
-# composerのver1系最終を指定
-ARG COMPOSER_VERSION="1.10.27"
+ARG COMPOSER_VERSION="2.9.4"
 
 RUN apk --update-cache add \
             git \
@@ -24,14 +23,13 @@ RUN docker-php-ext-install -j$(nproc) gd gettext
 WORKDIR /tmp
 
 RUN curl https://getcomposer.org/installer | php -- --version ${COMPOSER_VERSION}
-RUN ./composer.phar config -g repos.packagist composer https://packagist.jp
-RUN ./composer.phar global require hirak/prestissimo
 
 RUN rm -rf /var/www && mkdir /var/www
 COPY --from=p2-rep2 . /var/www
 
 WORKDIR /var/www
 
+RUN rm -f composer.lock
 RUN /tmp/composer.phar install
 RUN rm -r doc
 RUN rm -rf `find . -name '.git*' -o -name 'composer.*'`
