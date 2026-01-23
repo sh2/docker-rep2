@@ -11,6 +11,24 @@ chown -R www-data:www-data /ext
 crond
 
 php-fpm -D
+
+# Generate Caddyfile
+cat <<EOF > /etc/Caddyfile
+:8443 {
+    log {
+        output stderr
+    }
+EOF
+if [ -n "$REP2_TLS_CERT" ] && [ -n "$REP2_TLS_KEY" ]; then
+    echo "    tls $REP2_TLS_CERT $REP2_TLS_KEY" >> /etc/Caddyfile
+fi
+cat <<EOF >> /etc/Caddyfile
+    root * /var/www/rep2
+    php_fastcgi 127.0.0.1:9000
+    file_server
+}
+EOF
+
 caddy start --config /etc/Caddyfile
 
 while true; do
