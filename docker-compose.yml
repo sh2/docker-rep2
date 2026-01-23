@@ -4,20 +4,24 @@ services:
       context: .
       dockerfile: docker/Dockerfile
       additional_contexts:
+# p2-repと2chproxy.plの参照するgitリポジトリの指定
         p2-rep2: https://github.com/fukumen/p2-php.git#1e6dca32e2e50758efba38b17d3ae36d39309f38
         2chproxy.pl: https://github.com/fukumen/2chproxy.pl.git#6abebb93e692899ca54922391c406b7ffe8564b1
       args:
         DEBUG: off
     image: rep2:latest
     volumes:
+# rep2のデータの格納先の指定
       - ./rep2-data:/ext
-      - /etc/letsencrypt:/etc/letsencrypt
+# rep2へhttps接続するための証明書の格納先の指定
+#      - /etc/letsencrypt:/etc/letsencrypt
+# 10088が待ち受けのポート番号
     ports:
       - "10088:8443"
     network_mode: bridge
     restart: unless-stopped
     environment:
-# ■2chproxy.plの設定
+# 2chproxy.plの設定
       NCPX_USER_AGENT: "Monazilla/1.00 (rep2+2chproxy.pl/0.1)"
       NCPX_ENABLE_ALWAYS_HTTPS_FOR_2CH: 1
       NCPX_ALLOW_CONNECT_METHOD: 1
@@ -25,7 +29,7 @@ services:
       NCPX_ENABLE_WEB_SCRAPING : 0
       NCPX_TIMEOUT: 120
 
-# ■caddyの設定
-# REP2_TLS_CERTとREP2_TLS_KEYに証明書を設定するとrep2への接続がhttps接続となり渡さないとhttp接続となる
+# caddyの設定
+#   REP2_TLS_CERTとREP2_TLS_KEYに証明書を設定するとrep2への接続がhttps接続となり渡さないとhttp接続となる
 #      REP2_TLS_CERT: "/etc/letsencrypt/live/mydomain/fullchain.pem"
 #      REP2_TLS_KEY: "/etc/letsencrypt/live/mydomain/privkey.pem"
