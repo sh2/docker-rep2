@@ -8,14 +8,22 @@ down:
 	docker compose down
 
 debug:
-	docker compose -f docker-compose.yml -f docker-compose.debug.yml up -d
+	docker compose -f docker-compose.yml -f docker-compose.debug.yml -f docker-compose.override.yml up -d
 
 build:
-	docker compose -f docker-compose.yml -f docker-compose.debug.yml build #--progress=plain
+	docker compose -f docker-compose.yml -f docker-compose.debug.yml -f docker-compose.override.yml build #--progress=plain
 	docker image prune -f
 
 build-local:
-	docker compose -f docker-compose.yml -f docker-compose.local.yml build
+	docker compose -f docker-compose.yml -f docker-compose.local.yml -f docker-compose.override.yml build
+	docker image prune -f
+
+config:
+	docker compose -f docker-compose.yml -f docker-compose.debug.yml -f docker-compose.override.yml config
+	docker image prune -f
+
+config-local:
+	docker compose -f docker-compose.yml -f docker-compose.local.yml -f docker-compose.override.yml config
 	docker image prune -f
 
 logs:
