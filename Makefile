@@ -1,14 +1,21 @@
 up:
-	docker compose up -d --build
+	docker compose up -d
 
-debug:
-	docker compose -f docker-compose.yml -f docker-compose.debug.yml up -d
+up-build:
+	docker compose up -d --build
 
 down:
 	docker compose down
 
+debug:
+	docker compose -f docker-compose.yml -f docker-compose.debug.yml up -d
+
 build:
 	docker compose -f docker-compose.yml -f docker-compose.debug.yml build #--progress=plain
+	docker image prune -f
+
+build-local:
+	docker compose -f docker-compose.yml -f docker-compose.local.yml build
 	docker image prune -f
 
 logs:

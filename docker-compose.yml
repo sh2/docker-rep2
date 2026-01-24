@@ -6,7 +6,7 @@ services:
       additional_contexts:
 # p2-repと2chproxy.plの参照するgitリポジトリの指定
         p2-rep2: https://github.com/fukumen/p2-php.git#1e6dca32e2e50758efba38b17d3ae36d39309f38
-        2chproxy.pl: https://github.com/fukumen/2chproxy.pl.git#6abebb93e692899ca54922391c406b7ffe8564b1
+        2chproxy.pl: https://github.com/fukumen/2chproxy.pl.git#c95b6cdabeef18eacfc498832d9a1eb224771bc0
       args:
         DEBUG: off
     image: rep2:latest
