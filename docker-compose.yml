@@ -5,7 +5,7 @@ services:
       dockerfile: docker/Dockerfile
       additional_contexts:
 # p2-repと2chproxy.plの参照するgitリポジトリの指定
-        p2-rep2: https://github.com/fukumen/p2-php.git#1e6dca32e2e50758efba38b17d3ae36d39309f38
+        p2-rep2: https://github.com/fukumen/p2-php.git#87409ea9af2e07bc788006b1222dc99d4814a743
         2chproxy.pl: https://github.com/fukumen/2chproxy.pl.git#c95b6cdabeef18eacfc498832d9a1eb224771bc0
       args:
         DEBUG: off
