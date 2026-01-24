@@ -64,6 +64,9 @@ PHP8に対応した[mikoim/p2-php](https://github.com/mikoim/p2-php)をフォー
 5chはいつでもhttps接続に対応した[ma8ma/2chproxy.pl](https://github.com/ma8ma/2chproxy.pl)をフォークした[fukumen/2chproxy.pl](https://github.com/fukumen/2chproxy.pl)を使用しています。
 変更したい場合はdocker-compose.ymlを編集してください。
 
+また、2chproxy.plの設定をdocker-compose.ymlに記載できます。
+environmentに設定名にNCPX_を頭に付けて記載してください。
+
 ## caddy
 
 rep2への接続はhttp接続とhttps接続が選べます。
