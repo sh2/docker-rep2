@@ -59,7 +59,7 @@ proxy_use: しない
 PHP8に対応した[mikoim/p2-php](https://github.com/mikoim/p2-php)をフォークした[fukumen/p2-php](https://github.com/fukumen/p2-php)を使用しています。
 変更したい場合はdocker-compose.ymlを編集してください。
 
-## 2chproxy.pl
+### 2chproxy.pl
 
 5chはいつでもhttps接続に対応した[ma8ma/2chproxy.pl](https://github.com/ma8ma/2chproxy.pl)をフォークした[fukumen/2chproxy.pl](https://github.com/fukumen/2chproxy.pl)を使用しています。
 変更したい場合はdocker-compose.ymlを編集してください。
@@ -67,14 +67,14 @@ PHP8に対応した[mikoim/p2-php](https://github.com/mikoim/p2-php)をフォー
 また、2chproxy.plの設定をdocker-compose.ymlに記載できます。
 environmentに設定名にNCPX_を頭に付けて記載してください。
 
-## caddy
+### caddy
 
 rep2への接続はhttp接続とhttps接続が選べます。
 
 デフォルトではhttp接続になっているため、
 https接続を使いたい場合はdocker-compose.ymlを編集してLet's Encryptの証明書を設定してください。
 
-## ソフトバージョン
+### ソフトバージョン
 
 ```
 ALPINE 3.23
@@ -85,21 +85,17 @@ COMPOSER 2.9.4
 
 新しそうなのを集めたので気分はいいけどかなり怪しい世界。
 
+## docker-compose.override.ymlについて
+
+docker-compose.ymlを編集してしまってもよいですが、docker-compose.override.ymlを別途用意してそちらに記載した方がマージが楽になります。
+
 ## デバッグ方法
 
-デバッグ用のビルドではdocker-compose.debug.ymlで指定したパスにrep2と2chproxy.plのソースコードをgit cloneしておき、そのソースコードをコンテナに格納します。
-デフォルトではこのディレクトリの親のp2-phpと2chproxy.plになっています。
+通常のビルドではgithubのrep2と2chproxy.plを直接参照してビルドしますが、デバッグ用のビルドではdocker-compose.debug.ymlで指定したパスにrep2と2chproxy.plのソースコードをgit cloneしておき、そのソースコードをコンテナに格納します。
 
-ソースコードが用意できたら以下のように実行してください。
+また、以下のようなvscodeのワークスペースファイルを用意してください。
 
-```shell
-docker compose -f docker-compose.yml -f docker-compose.debug.yml build
-docker compose -f docker-compose.yml -f docker-compose.debug.yml up -d
-```
-
-docker-rep2とp2-phpと2chproxy.plの親ディレクトリに以下のようなワークスペースを用意してください。
-
-```rep2.code-workspace
+```json
 {
 	"folders": [
 		{
@@ -134,7 +130,25 @@ docker-rep2とp2-phpと2chproxy.plの親ディレクトリに以下のような�
 }
 ```
 
-これでvscodeでPHP Debug拡張機能を使ってrep2のデバッグが出来ます。
+まとめると以下のようなディレクトリ構成としてください。
+
+```
+projdir/
+  rep2.code-workspace
+  docker-rep2/
+  p2-php/
+  2chproxy.pl/
+```
+
+ソースコードが用意できたら以下のように実行してください。
+
+```shell
+docker compose -f docker-compose.yml -f docker-compose.debug.yml -f docker-compose.override.yml build
+docker compose -f docker-compose.yml -f docker-compose.debug.yml -f docker-compose.override.yml up -d
+```
+
+これらの用意をしてvscodeでrep2.code-workspaceを開いてください。
+PHP Debug拡張機能を使ってrep2のデバッグが出来ます。
 Makefileにこれらのコマンドも入れてあるのでそちらを使うと便利です。
 
 ## TODO
