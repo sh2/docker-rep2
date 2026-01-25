@@ -29,7 +29,6 @@ COPY --from=p2-rep2 . /var/www
 
 WORKDIR /var/www
 
-RUN rm -f composer.lock
 RUN /tmp/composer.phar install
 RUN rm -r doc
 RUN rm -rf `find . -name '.git*' -o -name 'composer.*'`
