@@ -5,8 +5,8 @@ services:
       dockerfile: docker/Dockerfile
       additional_contexts:
 # p2-repと2chproxy.plの参照するgitリポジトリの指定
-        p2-rep2: https://github.com/fukumen/p2-php.git#fd8a4772ab509189129766ee0363e05c78d06750
-        2chproxy.pl: https://github.com/fukumen/2chproxy.pl.git#c95b6cdabeef18eacfc498832d9a1eb224771bc0
+        p2-rep2: https://github.com/fukumen/p2-php.git#php8-merge-mbstring
+        2chproxy.pl: https://github.com/fukumen/2chproxy.pl.git#always-https-for-2ch-config
       args:
         DEBUG: off
     image: rep2:latest
