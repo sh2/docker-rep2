@@ -15,6 +15,8 @@ services:
       - ./rep2-data:/ext
 # php.iniを設定したいときの指定
 #      - ./php-local.ini:/usr/local/etc/php/conf.d/z-php-local.ini
+# php-fpmを設定したいときの指定
+#      - ./www-local.conf:/usr/local/etc/php-fpm.d/z-www-local.conf
 # rep2へhttps接続するための証明書の格納先の指定
 #      - /etc/letsencrypt:/etc/letsencrypt
 # 10088が待ち受けのポート番号

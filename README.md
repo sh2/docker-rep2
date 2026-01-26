@@ -73,6 +73,8 @@ memory_limitを変更したいなどの理由でphp.iniの設定したい場合�
 
 memory_limitはデフォルトで128Mになっています。docker compose logsを確認してAllowed memory size of〜のようなエラーが出る場合には設定してください。
 
+メモリ消費量を計測したいときはphp-fpm.confを変更したい場合、www-local.confのようなファイルを用意してdocker-compose.ymlでバインドマウントするよう記載してください。
+
 ### caddy
 
 rep2への接続はhttp接続とhttps接続が選べます。
