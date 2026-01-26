@@ -67,6 +67,12 @@ PHP8に対応した[mikoim/p2-php](https://github.com/mikoim/p2-php)をフォー
 また、2chproxy.plの設定をdocker-compose.ymlに記載できます。
 environmentに設定名にNCPX_を頭に付けて記載してください。
 
+### PHP
+
+memory_limitを変更したいなどの理由でphp.iniの設定したい場合、php-local.iniのようなファイルを用意してdocker-compose.ymlでバインドマウントするよう記載してください。
+
+memory_limitはデフォルトで128Mになっています。docker compose logsを確認してAllowed memory size of〜のようなエラーが出る場合には設定してください。
+
 ### caddy
 
 rep2への接続はhttp接続とhttps接続が選べます。
@@ -87,7 +93,7 @@ COMPOSER 2.9.4
 
 ## docker-compose.override.ymlについて
 
-docker-compose.ymlを編集してしまってもよいですが、docker-compose.override.ymlを別途用意してそちらに記載した方がマージが楽になります。
+docker-compose.ymlを編集してしまってもよいですが、docker-compose.override.ymlを別途用意してそちらに記載した方がgit pullをしたときにコンフリクトも起きないのでオススメです。
 
 ## デバッグ方法
 
