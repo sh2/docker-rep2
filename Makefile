@@ -32,6 +32,12 @@ logs:
 exec:
 	docker compose exec rep2php8 /bin/sh
 
+update:
+	docker compose cp ../p2-php/lib rep2php8:/var/www
+	docker compose cp ../p2-php/rep2 rep2php8:/var/www
+	docker compose exec rep2php8 chown -R root:root /var/www/lib
+	docker compose exec rep2php8 chown -R root:root /var/www/rep2
+
 clean:
 	docker image prune -f
 	docker builder prune -a
