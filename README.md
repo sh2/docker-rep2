@@ -23,8 +23,26 @@ cd docker-rep2
 docker compose up -d --build
 ```
 
-標準ではカレントディレクトリのrep2-dataにrep2/dataの中身が格納されます。
+標準ではカレントディレクトリのrep2-dataにrep2のdataやconfの中身が格納されます。
 変更したい場合はdocker-compose.ymlを編集してください。
+
+### :warning:confについての注意事項
+
+設定ファイルが格納されているconfは初回起動時に格納されますが、それ以降リポジトリ側が更新されても自動でマージされるわけではありません。
+設定項目の追加等があった場合には手動でマージする必要があります。
+
+以下のコマンドでリポジトリ側のconfと現在のconfの差分が表示されるので自分で変更した設定のみが表示される状態に保つようにしてください。
+
+```shell
+docker compose exec rep2php8 diff /var/www/conf.orig /ext/conf | iconv -f SHIFT_JIS -t UTF-8
+```
+
+-のみの行が表示表示されているようならリポジトリ側で追加されているのでマージが必要です。
+fukumen/p2-phpを使用しているのであれば[confの変化点](https://github.com/fukumen/p2-php/commits/php8-merge-mbstring/conf)を参考に作業してください。
+
+### :warning:data/prefについての注意事項
+
+fukumen/p2-phpを使用する場合、「認証関係のハッシュや暗号化を強化」によりp2_auth_user.phpとconf_user.srd.cgiが従来のrep2では全く読めなくなります。バックアップをとっておいてください。
 
 ### 2chproxy.plを使う場合(デフォルト)
 
@@ -58,6 +76,8 @@ proxy_use: しない
 
 PHP8に対応した[mikoim/p2-php](https://github.com/mikoim/p2-php)をフォークした[fukumen/p2-php](https://github.com/fukumen/p2-php)を使用しています。
 変更したい場合はdocker-compose.ymlを編集してください。
+
+fukumen/p2-phpを使用する場合、「認証関係のハッシュや暗号化を強化」により、environmentにSECRET_KEYの設定が必要です。ホストで openssl rand -hex 32 を実行した結果を記載してください。
 
 ### 2chproxy.pl
 

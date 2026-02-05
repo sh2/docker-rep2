@@ -1,4 +1,6 @@
 rep2-data/
 docker-compose.override.yml
 php-local.ini
+xdebug-local.ini
 www-local.conf
+local.mk

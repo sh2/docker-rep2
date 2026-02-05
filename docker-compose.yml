@@ -25,6 +25,8 @@ services:
     network_mode: bridge
     restart: unless-stopped
     environment:
+# rep2で使用する暗号キーの指定
+      SECRET_KEY: "ホストで openssl rand -hex 32 を実行した結果に置き換えてください"
 # 2chproxy.plの設定
       NCPX_USER_AGENT: "Monazilla/1.00 (rep2+2chproxy.pl/0.1)"
       NCPX_ENABLE_ALWAYS_HTTPS_FOR_2CH: 1

@@ -38,6 +38,11 @@ update:
 	docker compose exec rep2php8 chown -R root:root /var/www/lib
 	docker compose exec rep2php8 chown -R root:root /var/www/rep2
 
+confdiff:
+	docker compose exec rep2php8 diff /var/www/conf.orig /ext/conf | iconv -f SHIFT_JIS -t UTF-8
+
 clean:
 	docker image prune -f
 	docker builder prune -a
+
+-include local.mk
