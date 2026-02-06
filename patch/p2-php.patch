@@ -9,8 +9,8 @@
 +++ b/conf/conf_user_def.inc.php
 @@ -537,10 +537,10 @@
  // プロキシを利用(する:1, しない:0)
--$conf_user_def['proxy_use'] = 0; // (0)
-+$conf_user_def['proxy_use'] = 1; // (0)
+ $conf_user_def['proxy_use'] = 0; // (0)
+ $conf_user_def['proxy_use'] = 0; // (0)
  $conf_user_rad['proxy_use'] = array('1' => 'する', '0' => 'しない');
 
  // プロキシホスト ex)"127.0.0.1", "www.p2proxy.com"
