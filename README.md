@@ -44,7 +44,21 @@ fukumen/p2-phpを使用しているのであれば[confの変化点](https://git
 
 fukumen/p2-phpを使用する場合、「認証関係のハッシュや暗号化を強化」によりp2_auth_user.phpとconf_user.srd.cgiが従来のrep2では全く読めなくなります。バックアップをとっておいてください。
 
-### 2chproxy.plを使う場合(デフォルト)
+### 2chproxy.plを使わない場合(推奨)
+
+rep2を以下の設定で使う想定です。
+
+```
+proxy_use: しない
+2ch_ssl.subject: する
+2ch_ssl.post: する
+2ch_to_5ch: する
+http_post_method: HTTP_Request2コンパチ
+```
+
+2chproxy.plは動いていても使わずに直接5chに接続するようになります。
+
+### 2chproxy.plを使う場合
 
 rep2を以下の設定で使う想定です。
 
@@ -54,21 +68,14 @@ proxy_host: 127.0.0.1
 proxy_port: 8080
 2ch_ssl.subject: しない
 2ch_ssl.post: しない
+2ch_to_5ch: する
+http_post_method: HTTP_Request2コンパチ
 ```
 
 2ch_ssl.subjectと2ch_ssl.postをするにしていると2chproxy.plがほぼ土管になって2chproxy.plの使いたい機能が使えません。
 
-### 2chproxy.plを使わない場合
-
-rep2を以下の設定で使う想定です。
-
-```
-proxy_use: しない
-2ch_ssl.subject: する
-2ch_ssl.post: する
-```
-
-2chproxy.plは動いていても使わずに直接5chに接続するようになります。
+なお、2chproxy.plはデバッグに便利なのでdocker-rep2に残していますが、fukumen/p2-phpであればrep2側で過去ログ倉庫のスクレイピングも実装済みのため、現時点ではproxyは不要になっているはず。
+但し、5ch以外はテスト出来ていないのでトラブルが起きる可能性はあります。
 
 ## 構成
 
