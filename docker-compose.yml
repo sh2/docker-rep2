@@ -33,7 +33,6 @@ services:
       NCPX_ALLOW_CONNECT_METHOD: 1
       NCPX_KEEP_COOKIE : 0
       NCPX_ENABLE_WEB_SCRAPING : 0
-      NCPX_TIMEOUT: 120
 
 # caddyの設定
 #   REP2_TLS_CERTとREP2_TLS_KEYに証明書を設定するとrep2への接続がhttps接続となり渡さないとhttp接続となる
