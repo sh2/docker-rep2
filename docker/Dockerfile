@@ -6,6 +6,7 @@ FROM caddy:${CADDY_VERSION}-alpine AS caddy-upstream
 
 FROM php:${PHP_VERSION}-fpm-alpine${ALPINE_VERSION} AS builder
 ARG DEBUG
+ARG USE_IMAGICK="false"
 
 ARG COMPOSER_VERSION="2.9.4"
 
@@ -17,8 +18,15 @@ RUN apk --update-cache add \
             libpng-dev \
             zlib-dev
 
-RUN docker-php-ext-configure gd --with-jpeg
-RUN docker-php-ext-install -j$(nproc) gd gettext
+RUN if [ "$USE_IMAGICK" = "true" ]; then \
+        apk add --no-cache $PHPIZE_DEPS imagemagick-dev libtool && \
+        pecl install imagick && \
+        docker-php-ext-enable imagick; \
+    else \
+        docker-php-ext-configure gd --with-jpeg && \
+        docker-php-ext-install -j$(nproc) gd; \
+    fi
+RUN docker-php-ext-install -j$(nproc) gettext
 
 WORKDIR /tmp
 
@@ -49,6 +57,7 @@ FROM php:${PHP_VERSION}-fpm-alpine${ALPINE_VERSION}
 LABEL org.opencontainers.image.authors="Abe Masahiro <pen@thcomp.org>" \
     org.opencontainers.image.source="https://github.com/pen/docker-rep2"
 ARG DEBUG
+ARG USE_IMAGICK="false"
 
 RUN apk --no-cache add \
             sudo \
@@ -63,6 +72,10 @@ RUN apk --no-cache add \
             perl-lwp-protocol-https \
             ca-certificates \
             zlib
+
+RUN if [ "$USE_IMAGICK" = "true" ]; then \
+        apk --no-cache add imagemagick; \
+    fi
 
 COPY --from=caddy-upstream /usr/bin/caddy /usr/bin/caddy
 

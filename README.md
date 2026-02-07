@@ -102,6 +102,11 @@ memory_limitはデフォルトで128Mになっています。docker compose logs
 
 メモリ消費量を計測したいときはphp-fpm.confを変更したい場合、www-local.confのようなファイルを用意してdocker-compose.ymlでバインドマウントするよう記載してください。
 
+### ic2でimagickを使用したい場合
+
+標準ではgdを使用するイメージが作成されます。
+ic2でimagickを使用したい場合、ビルド引数にUSE_IMAGICKをtrueを指定してください。docker-compose.imagick.ymlを参考にdocker-compose.override.ymlを用意しておけば、いつもimagickでビルドしてくれるようになります。
+
 ### caddy
 
 rep2への接続はhttp接続とhttps接続が選べます。
