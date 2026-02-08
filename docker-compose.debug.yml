@@ -13,6 +13,7 @@ services:
 # for Xdebug
     volumes:
       - ./xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+      - ./debug_helper.php:/var/www/debug_helper.php
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
