@@ -9,7 +9,8 @@ services:
         2chproxy.pl: https://github.com/fukumen/2chproxy.pl.git#always-https-for-2ch-config
       args:
         DEBUG: off
-    image: rep2:latest
+    # image: rep2:latest
+    image: ghcr.io/fukumen/rep2:latest
     volumes:
 # rep2のデータの格納先の指定
       - ./rep2-data:/ext

@@ -1,0 +1,32 @@
+name: Cleanup Untagged Images
+
+on:
+  workflow_dispatch:
+  schedule:
+    # –ˆT“ú—j“ú‚ÌŒß‘O4(JST)‚ÉÀs (UTC 19:00)
+    - cron: '0 19 * * 0'
+
+jobs:
+  delete-untagged:
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+
+    steps:
+      - name: Delete untagged images for rep2
+        uses: actions/delete-package-versions@v5
+        with:
+          package-name: 'rep2'
+          package-type: 'container'
+          min-versions-to-keep: 3
+          delete-only-untagged-versions: 'true'
+          # token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Delete untagged images for rep2-img
+        uses: actions/delete-package-versions@v5
+        with:
+          package-name: 'rep2-img'
+          package-type: 'container'
+          min-versions-to-keep: 3
+          delete-only-untagged-versions: 'true'
+          # token: ${{ secrets.GITHUB_TOKEN }}

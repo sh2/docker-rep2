@@ -3,4 +3,5 @@ services:
     build:
       args:
         USE_IMAGICK: "true"
-    image: rep2-im:latest
+    # image: rep2-im:latest
+    image: ghcr.io/fukumen/rep2-img:latest
