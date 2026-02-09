@@ -13,7 +13,7 @@
 
 git, docker, docker composeなどが必要です。
 
-そのままの設定で使うなら以下を実行すればコンテナをビルドして起動までしてくれます。
+そのままの設定で使うなら以下を実行すればコンテナをプルして起動までしてくれます。
 標準ではポート番号は10088です。
 変更したい場合はdocker-compose.ymlを編集してください。
 
@@ -22,6 +22,8 @@ git clone https://github.com/fukumen/docker-rep2.git
 cd docker-rep2
 docker compose up -d --build
 ```
+
+ビルドしたい場合はMakefileを参考にしてください。
 
 標準ではカレントディレクトリのrep2-dataにrep2のdataやconfの中身が格納されます。
 変更したい場合はdocker-compose.ymlを編集してください。
@@ -104,8 +106,8 @@ memory_limitはデフォルトで128Mになっています。docker compose logs
 
 ### ic2でimagickを使用したい場合
 
-標準ではgdを使用するイメージが作成されます。
-ic2でimagickを使用したい場合、ビルド引数にUSE_IMAGICKをtrueを指定してください。docker-compose.imagick.ymlを参考にdocker-compose.override.ymlを用意しておけば、いつもimagickでビルドしてくれるようになります。
+標準ではic2でgdを使用するイメージがプルかビルドされます。
+ic2でimagickを使用したい場合、docker-compose.imagick.ymlを参考にdocker-compose.override.ymlを用意しておけば、いつもimagickでプルかビルドしてくれるようになります。
 
 ### caddy
 
@@ -195,8 +197,6 @@ Makefileにこれらのコマンドも入れてあるのでそちらを使うと
 
 ホストのLet's Encryptの証明書を参照するようになっているが、更新されたときにcaddyが読み直してくれないと思うのでなんとかしたい。
 そもそもCaddyに証明書の管理をやらせるべきだが、後回しになっている。
-
-過去ログ倉庫の確認をしているときに気がついたが、BEのリンクがbe.2ch.netになっているのでbe.5ch.netに置き換えたい。
 
 ## おまけ
 
