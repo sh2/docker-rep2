@@ -7,6 +7,9 @@ up-build:
 down:
 	docker compose down
 
+pull:
+	docker compose pull
+
 debug:
 	docker compose -f docker-compose.yml -f docker-compose.debug.yml -f docker-compose.override.yml up -d
 
