@@ -51,7 +51,7 @@ jobs:
             DEBUG=off
           tags: |
             ghcr.io/${{ github.repository_owner }}/rep2:latest
-            # ghcr.io/${{ github.repository_owner }}/rep2:${{ steps.date.outputs.today }}
+#            ghcr.io/${{ github.repository_owner }}/rep2:${{ steps.date.outputs.today }}
 
       # Build rep2-img (With ImageMagick)
       - name: Build and push rep2-img
@@ -69,4 +69,4 @@ jobs:
             USE_IMAGICK=true
           tags: |
             ghcr.io/${{ github.repository_owner }}/rep2-img:latest
-            # ghcr.io/${{ github.repository_owner }}/rep2-img:${{ steps.date.outputs.today }}
+#            ghcr.io/${{ github.repository_owner }}/rep2-img:${{ steps.date.outputs.today }}
