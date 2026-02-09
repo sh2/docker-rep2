@@ -4,7 +4,7 @@ mkdir -p /ext/conf /ext/data /ext/rep2/ic
 cp -Rn /var/www/conf.orig/* /ext/conf/
 cp -Rn /var/www/data.orig/* /ext/data/
 
-sudo -u www-data php /var/www/scripts/ic2.php setup
+sudo -E -u www-data php /var/www/scripts/ic2.php setup
 
 chown -R www-data:www-data /ext
 
