@@ -38,11 +38,10 @@ COPY --from=p2-rep2 . /var/www
 WORKDIR /var/www
 
 RUN /tmp/composer.phar install
-RUN rm -r doc
 RUN rm -rf `find . -name '.git*' -o -name 'composer.*'`
 
 COPY patch /tmp
-RUN patch -p1 < /tmp/p2-php.patch
+RUN patch --no-backup-if-mismatch -p1 < /tmp/p2-php.patch
 
 RUN mv conf conf.orig && ln -s /ext/conf conf
 RUN mv data data.orig && ln -s /ext/data data
@@ -58,6 +57,19 @@ LABEL org.opencontainers.image.authors="Abe Masahiro <pen@thcomp.org>" \
     org.opencontainers.image.source="https://github.com/pen/docker-rep2"
 ARG DEBUG
 ARG USE_IMAGICK="false"
+
+ARG REPO_HASH
+ARG REPO_LOG
+ARG REP2_HASH
+ARG REP2_LOG
+ARG RUN_ID
+ARG RUN_NUMBER
+ENV VER_REPO_HASH=$REPO_HASH
+ENV VER_REPO_LOG=$REPO_LOG
+ENV VER_REP2_HASH=$REP2_HASH
+ENV VER_REP2_LOG=$REP2_LOG
+ENV VER_RUN_ID=$RUN_ID
+ENV VER_RUN_NUMBER=$RUN_NUMBER
 
 RUN apk --no-cache add \
             sudo \

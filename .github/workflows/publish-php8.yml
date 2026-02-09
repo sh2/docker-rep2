@@ -34,6 +34,26 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Prepare metadata
+        id: meta
+        run: |
+          REPO_HASH=$(git rev-parse --short HEAD)
+          echo "REPO_HASH=${REPO_HASH}" >> "$GITHUB_OUTPUT"
+          REPO_RAW_LOG=$(git log -1 --format='%cd %s' --date=short)
+          echo "REPO_LOG=$(echo -n "$REPO_RAW_LOG" | base64 -w 0)" >> "$GITHUB_OUTPUT"
+
+          git clone --depth 1 --branch php8-merge-mbstring https://github.com/fukumen/p2-php.git temp_p2
+          cd temp_p2
+          
+          REP2_HASH=$(git rev-parse --short HEAD)
+          REP2_RAW_LOG=$(git log -1 --format='%cd %s' --date=short)
+          
+          echo "REP2_HASH=${REP2_HASH}" >> "$GITHUB_OUTPUT"
+          echo "REP2_LOG=$(echo -n "$REP2_RAW_LOG" | base64 -w 0)" >> "$GITHUB_OUTPUT"
+          
+          cd ..
+          rm -rf temp_p2
+
       # - name: Generate Date Tag
       #   id: date
       #   run: echo "::set-output name=today::$(date +'%y%m%d')"
@@ -51,6 +71,12 @@ jobs:
             2chproxy.pl=https://github.com/fukumen/2chproxy.pl.git#always-https-for-2ch-config
           build-args: |
             DEBUG=off
+            REPO_HASH=${{ steps.meta.outputs.REPO_HASH }}
+            REPO_LOG=${{ steps.meta.outputs.REPO_LOG }}
+            REP2_HASH=${{ steps.meta.outputs.REP2_HASH }}
+            REP2_LOG=${{ steps.meta.outputs.REP2_LOG }}
+            RUN_ID=${{ github.run_id }}
+            RUN_NUMBER=${{ github.run_number }}
           tags: |
             ghcr.io/${{ github.repository_owner }}/rep2:latest
 #            ghcr.io/${{ github.repository_owner }}/rep2:${{ steps.date.outputs.today }}
@@ -69,6 +95,12 @@ jobs:
           build-args: |
             DEBUG=off
             USE_IMAGICK=true
+            REPO_HASH=${{ steps.meta.outputs.REPO_HASH }}
+            REPO_LOG=${{ steps.meta.outputs.REPO_LOG }}
+            REP2_HASH=${{ steps.meta.outputs.REP2_HASH }}
+            REP2_LOG=${{ steps.meta.outputs.REP2_LOG }}
+            RUN_ID=${{ github.run_id }}
+            RUN_NUMBER=${{ github.run_number }}
           tags: |
             ghcr.io/${{ github.repository_owner }}/rep2-imagick:latest
 #            ghcr.io/${{ github.repository_owner }}/rep2-imagick:${{ steps.date.outputs.today }}
