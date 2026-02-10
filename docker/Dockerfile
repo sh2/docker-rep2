@@ -83,7 +83,8 @@ RUN apk --no-cache add \
             perl-io-socket-ssl \
             perl-lwp-protocol-https \
             ca-certificates \
-            zlib
+            zlib \
+            tzdata
 
 RUN if [ "$USE_IMAGICK" = "true" ]; then \
         apk --no-cache add imagemagick; \
