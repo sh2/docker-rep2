@@ -20,7 +20,7 @@ git, docker, docker composeなどが必要です。
 ```shell
 git clone https://github.com/fukumen/docker-rep2.git
 cd docker-rep2
-docker compose up -d --build
+docker compose up -d
 ```
 
 ビルドしたい場合はMakefileを参考にしてください。
