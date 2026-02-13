@@ -45,14 +45,14 @@ jobs:
         run: |
           REPO_HASH=$(git rev-parse --short HEAD)
           echo "REPO_HASH=${REPO_HASH}" >> "$GITHUB_OUTPUT"
-          REPO_RAW_LOG=$(TZ=Asia/Tokyo git log -1 --format='%cd %s' --date=format-local:'%Y-%m-%d %H:%M')
+          REPO_RAW_LOG=$(TZ=Asia/Tokyo git log -1 --format='%cd %s' --date=format-local:'%Y-%m-%d %H:%M' | head -n 1)
           echo "REPO_LOG=$(echo -n "$REPO_RAW_LOG" | base64 -w 0)" >> "$GITHUB_OUTPUT"
 
           git clone --depth 1 --branch php8-merge-mbstring https://github.com/fukumen/p2-php.git temp_p2
           cd temp_p2
           
           REP2_HASH=$(git rev-parse --short HEAD)
-          REP2_RAW_LOG=$(TZ=Asia/Tokyo git log -1 --format='%cd %s' --date=format-local:'%Y-%m-%d %H:%M')
+          REP2_RAW_LOG=$(TZ=Asia/Tokyo git log -1 --format='%cd %s' --date=format-local:'%Y-%m-%d %H:%M' | head -n 1)
           
           echo "REP2_HASH=${REP2_HASH}" >> "$GITHUB_OUTPUT"
           echo "REP2_LOG=$(echo -n "$REP2_RAW_LOG" | base64 -w 0)" >> "$GITHUB_OUTPUT"
