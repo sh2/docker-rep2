@@ -11,16 +11,16 @@
 
 ## 使い方
 
-git, docker, docker composeなどが必要です。
+git, podman, podman composeなどが必要です。
 
 そのままの設定で使うなら以下を実行すればコンテナをプルして起動までしてくれます。
-標準ではポート番号は10088です。
+標準ではポート番号は8080です。
 変更したい場合はdocker-compose.ymlを編集してください。
 
 ```shell
 git clone https://github.com/fukumen/docker-rep2.git
 cd docker-rep2
-docker compose up -d
+podman compose up -d
 ```
 
 ビルドしたい場合はMakefileを参考にしてください。
@@ -36,7 +36,7 @@ docker compose up -d
 以下のコマンドでリポジトリ側のconfと現在のconfの差分が表示されるので自分で変更した設定のみが表示される状態に保つようにしてください。
 
 ```shell
-docker compose exec rep2php8 diff /var/www/conf.orig /ext/conf | iconv -f SHIFT_JIS -t UTF-8
+podman compose exec rep2php8 diff /var/www/conf.orig /ext/conf | iconv -f SHIFT_JIS -t UTF-8
 ```
 
 -のみの行が表示表示されているようならリポジトリ側で追加されているのでマージが必要です。
@@ -100,7 +100,7 @@ environmentに設定名にNCPX_を頭に付けて記載してください。
 
 memory_limitを変更したいなどの理由でphp.iniの設定したい場合、php-local.iniのようなファイルを用意してdocker-compose.ymlでバインドマウントするよう記載してください。
 
-memory_limitはデフォルトで128Mになっています。docker compose logsを確認してAllowed memory size of〜のようなエラーが出る場合には設定してください。
+memory_limitはデフォルトで128Mになっています。podman compose logsを確認してAllowed memory size of〜のようなエラーが出る場合には設定してください。
 
 メモリ消費量を計測したいときはphp-fpm.confを変更したい場合、www-local.confのようなファイルを用意してdocker-compose.ymlでバインドマウントするよう記載してください。
 
@@ -185,8 +185,8 @@ projdir/
 ソースコードが用意できたら以下のように実行してください。
 
 ```shell
-docker compose -f docker-compose.yml -f docker-compose.debug.yml -f docker-compose.override.yml build
-docker compose -f docker-compose.yml -f docker-compose.debug.yml -f docker-compose.override.yml up -d
+podman compose -f docker-compose.yml -f docker-compose.debug.yml -f docker-compose.override.yml build
+podman compose -f docker-compose.yml -f docker-compose.debug.yml -f docker-compose.override.yml up -d
 ```
 
 これらの用意をしてvscodeでrep2.code-workspaceを開いてください。

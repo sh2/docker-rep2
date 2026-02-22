@@ -1,51 +1,51 @@
 up:
-	docker compose up -d
+	podman compose up -d
 
 up-build:
-	docker compose up -d --build
+	podman compose up -d --build
 
 down:
-	docker compose down
+	podman compose down
 
 pull:
-	docker compose pull
+	podman compose pull
 
 debug:
-	docker compose -f docker-compose.yml -f docker-compose.debug.yml -f docker-compose.override.yml up -d
+	podman compose -f docker-compose.yml -f docker-compose.debug.yml -f docker-compose.override.yml up -d
 
 build:
-	docker compose -f docker-compose.yml -f docker-compose.debug.yml -f docker-compose.override.yml build #--progress=plain
-	docker image prune -f
+	podman compose -f docker-compose.yml -f docker-compose.debug.yml -f docker-compose.override.yml build #--progress=plain
+	podman image prune -f
 
 build-local:
-	docker compose -f docker-compose.yml -f docker-compose.local.yml -f docker-compose.override.yml build
-	docker image prune -f
+	podman compose -f docker-compose.yml -f docker-compose.local.yml -f docker-compose.override.yml build
+	podman image prune -f
 
 config:
-	docker compose -f docker-compose.yml -f docker-compose.debug.yml -f docker-compose.override.yml config
-	docker image prune -f
+	podman compose -f docker-compose.yml -f docker-compose.debug.yml -f docker-compose.override.yml config
+	podman image prune -f
 
 config-local:
-	docker compose -f docker-compose.yml -f docker-compose.local.yml -f docker-compose.override.yml config
-	docker image prune -f
+	podman compose -f docker-compose.yml -f docker-compose.local.yml -f docker-compose.override.yml config
+	podman image prune -f
 
 logs:
-	docker compose logs -f
+	podman compose logs -f
 
 exec:
-	docker compose exec rep2php8 /bin/sh
+	podman compose exec rep2php8 /bin/sh
 
 update:
-	docker compose cp ../p2-php/lib rep2php8:/var/www
-	docker compose cp ../p2-php/rep2 rep2php8:/var/www
-	docker compose exec rep2php8 chown -R root:root /var/www/lib
-	docker compose exec rep2php8 chown -R root:root /var/www/rep2
+	podman compose cp ../p2-php/lib rep2php8:/var/www
+	podman compose cp ../p2-php/rep2 rep2php8:/var/www
+	podman compose exec rep2php8 chown -R root:root /var/www/lib
+	podman compose exec rep2php8 chown -R root:root /var/www/rep2
 
 confdiff:
-	docker compose exec rep2php8 diff /var/www/conf.orig /ext/conf | iconv -f SHIFT_JIS -t UTF-8
+	podman compose exec rep2php8 diff /var/www/conf.orig /ext/conf | iconv -f SHIFT_JIS -t UTF-8
 
 clean:
-	docker image prune -f
-	docker builder prune -a
+	podman image prune -f
+	podman builder prune -a
 
 -include local.mk
