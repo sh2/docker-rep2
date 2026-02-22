@@ -4,3 +4,4 @@ php-local.ini
 xdebug-local.ini
 www-local.conf
 local.mk
+.env
