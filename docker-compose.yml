@@ -13,15 +13,16 @@ services:
     image: ghcr.io/fukumen/rep2:latest
     volumes:
 # rep2のデータの格納先の指定
-      - ${REP2_DATA:-./rep2-data}:/ext
+      - ./rep2-data:/ext:Z
 # php.iniを設定したいときの指定
 #      - ./php-local.ini:/usr/local/etc/php/conf.d/z-php-local.ini
 # php-fpmを設定したいときの指定
 #      - ./www-local.conf:/usr/local/etc/php-fpm.d/z-www-local.conf
-# rep2へhttps接続するためのポート番号の指定
-# 10088が待ち受けのポート番号(.envを作成しREP2_PORT=80と書いておくと80に変更出来る)
+# rep2へhttps接続するための証明書の格納先の指定
+#      - /etc/letsencrypt:/etc/letsencrypt
+# 8080が待ち受けのポート番号(.envを作成しREP2_PORT=80と書いておくと80に変更出来る)
     ports:
-      - "${REP2_PORT:-10088}:8443"
+      - "${REP2_PORT:-8080}:8443"
     network_mode: bridge
     restart: unless-stopped
     environment:

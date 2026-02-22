@@ -2,9 +2,9 @@ ARG PHP_VERSION="8.5"
 ARG ALPINE_VERSION="3.23"
 ARG CADDY_VERSION="2.11"
 
-FROM caddy:${CADDY_VERSION}-alpine AS caddy-upstream
+FROM docker.io/library/caddy:${CADDY_VERSION}-alpine AS caddy-upstream
 
-FROM php:${PHP_VERSION}-fpm-alpine${ALPINE_VERSION} AS builder
+FROM docker.io/library/php:${PHP_VERSION}-fpm-alpine${ALPINE_VERSION} AS builder
 ARG DEBUG
 ARG USE_IMAGICK="false"
 
@@ -52,7 +52,7 @@ RUN chmod 755 2chproxy.pl
 RUN mv 2chproxy.pl /usr/local/bin/
 
 
-FROM php:${PHP_VERSION}-fpm-alpine${ALPINE_VERSION}
+FROM docker.io/library/php:${PHP_VERSION}-fpm-alpine${ALPINE_VERSION}
 LABEL org.opencontainers.image.authors="Abe Masahiro <pen@thcomp.org>" \
     org.opencontainers.image.source="https://github.com/pen/docker-rep2"
 ARG DEBUG
