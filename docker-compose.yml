@@ -13,7 +13,7 @@ services:
     image: ghcr.io/fukumen/rep2:latest
     volumes:
 # rep2のデータの格納先の指定
-      - ./rep2-data:/ext
+      - ${REP2_DATA:-./rep2-data}:/ext
 # php.iniを設定したいときの指定
 #      - ./php-local.ini:/usr/local/etc/php/conf.d/z-php-local.ini
 # php-fpmを設定したいときの指定
