@@ -25,7 +25,7 @@ docker compose up -d
 
 ビルドしたい場合はMakefileを参考にしてください。
 
-標準ではカレントディレクトリのrep2-dataにrep2のdataやconfの中身が格納されます。
+標準ではカレントディレクトリのrep2-dataにrep2のdataやconf、caddyのcaddy_configやcaddy_dataが格納されます。
 変更したい場合はdocker-compose.ymlを編集してください。
 
 ### :warning:confについての注意事項
@@ -111,10 +111,9 @@ ic2でimagickを使用したい場合、docker-compose.imagick.ymlを参考にdo
 
 ### caddy
 
-rep2への接続はhttp接続とhttps接続が選べます。
+rep2への接続はHTTP接続とHTTPS接続が選べます。デフォルトではホスト側のポート10088でHTTP接続として待ち受けます。ポート番号を変更したい場合は、`.env` ファイルを作成して `REP2_PORT=80` のように記載するか、`docker-compose.yml` を直接編集してください。
 
-デフォルトではhttp接続になっているため、
-https接続を使いたい場合はdocker-compose.ymlを編集してLet's Encryptの証明書を設定してください。
+HTTPS接続を有効にしたい場合や証明書に関する設定については、[doc/caddy.md](doc/caddy.md) を参照してください。
 
 ### ソフトバージョン
 
@@ -192,11 +191,6 @@ docker compose -f docker-compose.yml -f docker-compose.debug.yml -f docker-compo
 これらの用意をしてvscodeでrep2.code-workspaceを開いてください。
 PHP Debug拡張機能を使ってrep2のデバッグが出来ます。
 Makefileにこれらのコマンドも入れてあるのでそちらを使うと便利です。
-
-## TODO
-
-ホストのLet's Encryptの証明書を参照するようになっているが、更新されたときにcaddyが読み直してくれないと思うのでなんとかしたい。
-そもそもCaddyに証明書の管理をやらせるべきだが、後回しになっている。
 
 ## おまけ
 

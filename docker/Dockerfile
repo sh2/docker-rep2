@@ -72,7 +72,7 @@ ENV VER_RUN_ID=$RUN_ID
 ENV VER_RUN_NUMBER=$RUN_NUMBER
 
 RUN apk --no-cache add \
-            sudo \
+            su-exec \
             gettext \
             libintl \
             libjpeg \

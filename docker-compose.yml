@@ -18,8 +18,7 @@ services:
 #      - ./php-local.ini:/usr/local/etc/php/conf.d/z-php-local.ini
 # php-fpmを設定したいときの指定
 #      - ./www-local.conf:/usr/local/etc/php-fpm.d/z-www-local.conf
-# rep2へhttps接続するための証明書の格納先の指定
-#      - /etc/letsencrypt:/etc/letsencrypt
+# rep2へhttps接続するためのポート番号の指定
 # 10088が待ち受けのポート番号(.envを作成しREP2_PORT=80と書いておくと80に変更出来る)
     ports:
       - "${REP2_PORT:-10088}:8443"
@@ -35,8 +34,3 @@ services:
       NCPX_ALLOW_CONNECT_METHOD: 1
       NCPX_KEEP_COOKIE : 0
       NCPX_ENABLE_WEB_SCRAPING : 0
-
-# caddyの設定
-#   REP2_TLS_CERTとREP2_TLS_KEYに証明書を設定するとrep2への接続がhttps接続となり渡さないとhttp接続となる
-#      REP2_TLS_CERT: "/etc/letsencrypt/live/mydomain/fullchain.pem"
-#      REP2_TLS_KEY: "/etc/letsencrypt/live/mydomain/privkey.pem"

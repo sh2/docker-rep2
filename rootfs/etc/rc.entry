@@ -1,10 +1,13 @@
 #!/bin/sh
 
-mkdir -p /ext/conf /ext/data /ext/rep2/ic
+export XDG_CONFIG_HOME="/ext/caddy_config"
+export XDG_DATA_HOME="/ext/caddy_data"
+
+mkdir -p /ext/conf /ext/data /ext/rep2/ic "$XDG_CONFIG_HOME" "$XDG_DATA_HOME"
 cp -Rn /var/www/conf.orig/* /ext/conf/
 cp -Rn /var/www/data.orig/* /ext/data/
 
-sudo -E -u www-data php /var/www/scripts/ic2.php setup
+su-exec www-data php /var/www/scripts/ic2.php setup
 
 chown -R www-data:www-data /ext
 
@@ -12,7 +15,7 @@ crond
 
 php-fpm -D
 
-# Generate Caddyfile
+if [ ! -f /etc/Caddyfile ]; then
 cat <<EOF > /etc/Caddyfile
 :8443 {
     log {
@@ -33,10 +36,12 @@ cat <<EOF >> /etc/Caddyfile
     header @js_files Content-Type "application/javascript; charset=Shift_JIS"
 }
 EOF
+fi
 
-caddy start --config /etc/Caddyfile
+CADDY_USER=${CADDY_USER:-www-data}
+su-exec "$CADDY_USER" caddy start --config /etc/Caddyfile
 
 while true; do
     rm -f /tmp/2chproxy.pid
-    sudo -E -u nobody /usr/local/bin/2chproxy.pl -v -c /etc/2chproxy.conf
+    su-exec nobody /usr/local/bin/2chproxy.pl -v -c /etc/2chproxy.conf
 done
